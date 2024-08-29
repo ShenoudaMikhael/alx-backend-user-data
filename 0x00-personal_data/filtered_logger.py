@@ -37,14 +37,12 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """get_db function"""
-    db_connect = mysql.connector.connect(
+    return mysql.connector.connect(
         user=getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
         password=getenv('PERSONAL_DATA_DB_PASSWORD', ''),
         host=getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
-        database=getenv('PERSONAL_DATA_DB_NAME', '')
+        database=getenv('PERSONAL_DATA_DB_NAME')
     )
-    return db_connect
-
 
 
 class RedactingFormatter(logging.Formatter):
