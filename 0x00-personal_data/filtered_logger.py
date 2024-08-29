@@ -5,11 +5,10 @@ import re
 
 def filter_datum(fields, redaction, message, separator):
     """filter_datum function"""
-    z = message
     for field in fields:
-        z = re.sub(
+        message = re.sub(
             "{}=.*?{}".format(field, separator),
             "{}={}{}".format(field, redaction, separator),
-            z,
+            message,
         )
-    return z
+    return message
