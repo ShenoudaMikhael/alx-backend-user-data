@@ -2,11 +2,11 @@
 """
 Route module for the API
 """
+import os
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import CORS, cross_origin
-import os
 
 
 app = Flask(__name__)
@@ -16,7 +16,6 @@ auth = None
 AUTH_TYPE = getenv("AUTH_TYPE", None)
 if AUTH_TYPE == "auth":
     from api.v1.auth.auth import Auth
-
     auth = Auth()
 
 
@@ -40,11 +39,14 @@ def forbidden(error) -> str:
 
 @app.before_request
 def before_request_handler() -> str:
-    """before_request_handler function"""
+    """before request handler function"""
     if auth is None:
         return
     ex_path = [
-       u"/api/v1/status/", "/api/v1/unauthorized/", "/api/v1/forbidden/"]
+        "/api/v1/status/",
+        "/api/v1/unauthorized/",
+        "/api/v1/forbidden/"
+        ]
     if auth.require_auth(request.path, ex_path) is False:
         return
     if auth.authorization_header(request) is None:
