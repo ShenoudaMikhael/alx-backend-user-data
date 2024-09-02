@@ -20,26 +20,6 @@ if AUTH_TYPE == "auth":
     auth = Auth()
 
 
-@app.before_request
-def before_request_handler() -> str:
-    """before_request_handler function"""
-    if auth is None:
-        return
-    if (
-        auth.require_auth(
-            request.path,
-            ["/api/v1/status/", "/api/v1/unauthorized/", "/api/v1/forbidden/"],
-        )
-        is False
-    ):
-        return
-    if auth.authorization_header(request) is None:
-        abort(401)
-
-    if auth.current_user(request) is None:
-        abort(403)
-
-
 @app.errorhandler(404)
 def not_found(error) -> str:
     """Not found handler"""
@@ -56,6 +36,22 @@ def unauthorized(error) -> str:
 def forbidden(error) -> str:
     """Forbidden handler"""
     return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def before_request_handler() -> str:
+    """before_request_handler function"""
+    if auth is None:
+        return
+    ex_path = [
+       u"/api/v1/status/", "/api/v1/unauthorized/", "/api/v1/forbidden/"]
+    if auth.require_auth(request.path, ex_path) is False:
+        return
+    if auth.authorization_header(request) is None:
+        abort(401)
+
+    if auth.current_user(request) is None:
+        abort(403)
 
 
 if __name__ == "__main__":
