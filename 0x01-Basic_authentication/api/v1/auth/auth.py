@@ -14,10 +14,8 @@ class Auth:
             path is None
             or excluded_paths is None
             or excluded_paths == []
-            or (
-                path not in excluded_paths
-                and "{}/".format(path) not in excluded_paths
-                )
+            or (path not in excluded_paths
+                and "{}/".format(path) not in excluded_paths)
         ):
             return True
         else:
@@ -25,8 +23,12 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """authorization_header function"""
-        return request
+        if request is None:
+            return None
+        if request.headers.has_key("Authorization"):
+            return request.headers["Authorization"]
+        return None
 
     def current_user(self, request=None) -> TypeVar("User"):
         """current_user function"""
-        return request if request else None
+        return None
