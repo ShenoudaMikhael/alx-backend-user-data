@@ -10,6 +10,7 @@ import os
 
 
 app = Flask(__name__)
+app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 if getenv("AUTH_TYPE", None) == "auth":
@@ -18,7 +19,8 @@ if getenv("AUTH_TYPE", None) == "auth":
     auth = Auth()
 
 
-def before_request_handler():
+@app.before_request
+def before_request_handler() -> str:
     """before_request_handler function"""
     if auth is None:
         return
@@ -35,10 +37,6 @@ def before_request_handler():
 
     if auth.current_user(request) is None:
         abort(403)
-
-
-app_views.before_request(before_request_handler)
-app.register_blueprint(app_views)
 
 
 @app.errorhandler(404)
