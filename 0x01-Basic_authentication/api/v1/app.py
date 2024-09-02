@@ -17,7 +17,7 @@ if getenv("AUTH_TYPE", None) == "auth":
 
     auth = Auth()
 
-
+@app_views.before_request
 def before_request_handler():
     """before_request_handler function"""
     if auth is None:
@@ -39,7 +39,6 @@ def before_request_handler():
         abort(403)
 
 
-app_views.before_request(before_request_handler)
 app.register_blueprint(app_views)
 
 
