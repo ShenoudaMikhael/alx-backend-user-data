@@ -11,9 +11,13 @@ class Auth:
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """require_auth function"""
         if (
-            path not in excluded_paths
-            or path is None
-            or "{}/".format(path) not in excluded_paths
+            path is None
+            or excluded_paths is None
+            or excluded_paths == []
+            or (
+                path not in excluded_paths
+                and "{}/".format(path) not in excluded_paths
+                )
         ):
             return True
         else:
