@@ -19,6 +19,7 @@ if getenv("AUTH_TYPE", None) == "auth":
 
 
 def before_request_handler():
+    """before_request_handler function"""
     if auth is None:
         return
     if (
