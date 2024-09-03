@@ -63,3 +63,4 @@ class BasicAuth(Auth):
             return None
         if user[0].is_valid_password(user_pwd):
             return user[0]
+        return None
