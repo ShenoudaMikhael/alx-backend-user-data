@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Basic auth module"""
 from .auth import Auth
+import base64
 
 
 class BasicAuth(Auth):
@@ -28,7 +29,9 @@ class BasicAuth(Auth):
             return None
 
         try:
-            a = base64_authorization_header.decode("utf-8")
-            return a
+            a = base64_authorization_header.encode("utf-8")
+            bs = base64.b64decode(a)
+            de = bs.decode('utf-8')
+            return de
         except Exception:
             return None
