@@ -19,15 +19,12 @@ def login_user() -> str:
     password = request.form.get("password")
     if password is None:
         return jsonify({"error": "password missing"}), 400
-    print(email)
     users = User.search({"email": email})
-    print(users)
     if users is None or len(users) == 0:
         return jsonify({"error": "no user found for this email"}), 404
     for user in users:
         if user.is_valid_password(password):
             from api.v1.app import auth
-
             sid = auth.create_session(user.id)
             ss = getenv("SESSION_NAME")
             response = jsonify(user.to_json())
