@@ -15,7 +15,8 @@ class SessionDBAuth(SessionExpAuth):
         sid = super().create_session(user_id)
         if sid is None:
             return None
-        us = UserSession({"user_id": user_id, "session_id": sid})
+        kw = {"user_id": user_id, "session_id": sid}
+        us = UserSession(**kw)
         us.save()
         UserSession.save_to_file()
         return sid
@@ -24,19 +25,10 @@ class SessionDBAuth(SessionExpAuth):
         """user id for session id function"""
         if session_id is None:
             return None
-
-        UserSession.load_from_file()
         us = UserSession.search({"session_id": session_id})
-
         if not us:
             return None
-
         us = us[0]
-
-        expired_time = us.created_at + timedelta(seconds=self.session_duration)
-
-        if expired_time < datetime.now():
-            return None
 
         return us.user_id
 
