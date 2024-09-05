@@ -2,7 +2,7 @@
 """Session exp auth module"""
 from .session_auth import SessionAuth
 from os import getenv
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class SessionExpAuth(SessionAuth):
@@ -33,6 +33,8 @@ class SessionExpAuth(SessionAuth):
             return session_dict["user_id"]
         if "created_at" not in session_dict:
             return None
-        if session_dict["created_at"] + self.session_duration < datetime.now():
+        td = timedelta(microseconds=self.session_duration)
+        created_at = session_dict["created_at"]
+        if created_at + td < datetime.now():
             return None
         return session_dict["user_id"]
