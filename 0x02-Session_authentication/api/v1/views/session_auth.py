@@ -22,9 +22,9 @@ def login_user() -> str:
 
     users = User.search({"email": email})
     if users is None or len(users) == 0:
-        return jsonify({"error": "no user found for this email"}), 400
+        return jsonify({"error": "no user found for this email"}), 404
     for user in users:
-        if user.is_valid_password(password):
+        if not user.is_valid_password(password):
             from api.v1.app import auth
 
             sid = auth.create_session(user.id)
