@@ -18,7 +18,6 @@ class SessionDBAuth(SessionExpAuth):
         kw = {"user_id": user_id, "session_id": sid}
         us = UserSession(**kw)
         us.save()
-        UserSession.save_to_file()
         return sid
 
     def user_id_for_session_id(self, session_id=None):
