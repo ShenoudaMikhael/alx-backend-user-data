@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Session exp auth module"""
 from .session_auth import SessionAuth
 from os import getenv
 from datetime import datetime
@@ -9,6 +10,7 @@ class SessionExpAuth(SessionAuth):
         self.session_duration = int(getenv("SESSION_DURATION", "0"))
 
     def create_session(self, user_id=None):
+        """create session function"""
         sid = super(user_id)
         if sid is None:
             return None
@@ -18,6 +20,8 @@ class SessionExpAuth(SessionAuth):
         }
 
     def user_id_for_session_id(self, session_id=None):
+        """user id for session id function"""
+
         if session_id is None:
             return None
         if session_id not in self.user_id_by_session_id.keys():
