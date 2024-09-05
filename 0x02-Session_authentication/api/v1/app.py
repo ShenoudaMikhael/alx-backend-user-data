@@ -26,6 +26,10 @@ elif AUTH_TYPE == "session_auth":
     from api.v1.auth.session_auth import SessionAuth
 
     auth = SessionAuth()
+elif AUTH_TYPE == "":
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+
+    Auth = SessionExpAuth()
 
 
 @app.errorhandler(404)
