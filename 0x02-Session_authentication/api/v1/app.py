@@ -35,6 +35,7 @@ elif AUTH_TYPE == "session_db_auth":
 
     auth = SessionDBAuth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """Not found handler"""
