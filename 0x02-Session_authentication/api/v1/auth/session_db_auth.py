@@ -44,8 +44,11 @@ class SessionDBAuth(SessionExpAuth):
         sid = self.session_cookie(request)
         if not sid:
             return False
+        if not self.user_id_for_session_id(sid):
+            return False
         us = UserSession.search({"session_id": sid})
         if us:
             us[0].remove()
+            UserSession.save_to_file()
             return True
         return False
