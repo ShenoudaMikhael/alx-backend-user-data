@@ -29,7 +29,12 @@ class SessionDBAuth(SessionExpAuth):
         if not us:
             return None
         us = us[0]
-
+        cur_time = datetime.utcnow()
+        time_span = timedelta(seconds=self.session_duration)
+        exp_time = us.created_at + time_span
+        
+        if exp_time < cur_time:
+            return None
         return us.user_id
 
     def destroy_session(self, request=None):
