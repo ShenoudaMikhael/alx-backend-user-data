@@ -19,8 +19,9 @@ def login_user() -> str:
     password = request.form.get("password")
     if password is None:
         return jsonify({"error": "password missing"}), 400
-
+    print(email)
     users = User.search({"email": email})
+    print(users)
     if users is None or len(users) == 0:
         return jsonify({"error": "no user found for this email"}), 404
     for user in users:
@@ -47,5 +48,4 @@ def logout_user() -> str:
     destroyed = auth.destroy_session(request)
     if not destroyed:
         abort(404)
-    else:
-        return jsonify({}), 200
+    return jsonify({}), 200
