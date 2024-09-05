@@ -20,7 +20,7 @@ class SessionExpAuth(SessionAuth):
 
     def create_session(self, user_id=None):
         """create session function"""
-        sid = super(user_id)
+        sid = super().create_session(user_id)
         if sid is None:
             return None
         self.user_id_by_session_id[sid] = {
