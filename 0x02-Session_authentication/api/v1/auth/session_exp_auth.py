@@ -6,6 +6,8 @@ from datetime import datetime
 
 
 class SessionExpAuth(SessionAuth):
+    """Session Exp Auth class"""
+
     def __init__(self):
         self.session_duration = int(getenv("SESSION_DURATION", "0"))
 
