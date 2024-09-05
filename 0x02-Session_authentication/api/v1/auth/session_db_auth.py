@@ -36,27 +36,11 @@ class SessionDBAuth(SessionExpAuth):
         """destroy function"""
         if request is None:
             return False
-
         sid = self.session_cookie(request)
-        if sid is None:
+        if not sid:
             return False
-
-        user_id = self.user_id_for_session_id(sid)
-
-        if not user_id:
-            return False
-
         us = UserSession.search({"session_id": sid})
-
-        if not us:
-            return False
-
-        us = us[0]
-
-        try:
-            us.remove()
-            UserSession.save_to_file()
-        except Exception:
-            return False
-
-        return True
+        if us:
+            us[0].remove()
+            return True
+        return False
