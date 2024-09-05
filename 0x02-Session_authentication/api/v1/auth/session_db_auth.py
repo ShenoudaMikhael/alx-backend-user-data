@@ -15,7 +15,7 @@ class SessionDBAuth(SessionExpAuth):
         sid = super().create_session(user_id)
         if sid is None:
             return None
-        us = UserSession({"usee_id": user_id, "session_id": sid})
+        us = UserSession({"user_id": user_id, "session_id": sid})
         us.save()
         UserSession.save_to_file()
         return sid
