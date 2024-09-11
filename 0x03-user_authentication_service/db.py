@@ -55,3 +55,14 @@ class DB:
             return user
         else:
             raise NoResultFound
+
+    def update_user(self, user_id, **kwarg) -> None:
+        """Update user fucntion"""
+        user = self.find_user_by(id=user_id)
+        for k in kwarg.keys():
+            if user.__getattribute__(k):
+                user.__setattr__(k, kwarg[k])
+            else:
+                raise ValueError
+        self._session.commit()
+        return None
