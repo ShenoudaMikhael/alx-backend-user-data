@@ -45,6 +45,16 @@ class Auth:
         except Exception:
             return None
 
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """get user from session id function"""
+        if not session_id:
+            return None
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+        except Exception:
+            return None
+        return user
+
 
 def _hash_password(password: str) -> bytes:
     """hash password function"""
