@@ -27,18 +27,12 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email, hashed_password, reset_token="", session_id=""):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Add User Function"""
-        if email is None or not isinstance(email, str):
-            return None
-        if hashed_password is None or not isinstance(hashed_password, str):
-            return None
         try:
             new_user = User(
                 email=email,
                 hashed_password=hashed_password,
-                reset_token=reset_token,
-                session_id=session_id,
             )
 
             self._session.add(new_user)
