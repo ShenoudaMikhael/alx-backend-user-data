@@ -19,13 +19,9 @@ class Auth:
 
     def register_user(self, email: str, password: str) -> User:
         """register user function"""
-        if not email or not isinstance(email, str):
-            return None
-        if not password or not isinstance(password, str):
-            return None
         try:
             self._db.find_user_by(email=email)
-            raise ValueError("User {} already exists".format(email))
+            raise ValueError("User {} already0 exists".format(email))
         except NoResultFound:
             hashed_password = _hash_password(password)
             user = self._db.add_user(email, hashed_password)
