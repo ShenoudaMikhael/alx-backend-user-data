@@ -21,9 +21,11 @@ class Auth:
         """register user function"""
         try:
             user = self._db.find_user_by(email=email)
-            if user:
-                raise ValueError("User {} already exists".format(email))
+
         except NoResultFound:
             hashed_password = _hash_password(password)
             user = self._db.add_user(email, hashed_password)
             return user
+        else:
+            if user:
+                raise ValueError("User {} already exists".format(email))
