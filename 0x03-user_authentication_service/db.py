@@ -33,13 +33,17 @@ class DB:
             return None
         if hashed_password is None or not isinstance(hashed_password, str):
             return None
-        new_user = User(
-            email=email,
-            hashed_password=hashed_password,
-            reset_token=reset_token,
-            session_id=session_id,
-        )
+        try:
+            new_user = User(
+                email=email,
+                hashed_password=hashed_password,
+                reset_token=reset_token,
+                session_id=session_id,
+            )
 
-        self._session.add(new_user)
-        self._session.commit()
+            self._session.add(new_user)
+            self._session.commit()
+        except Exception:
+            self._session.rollback()
+            new_user = None
         return new_user
