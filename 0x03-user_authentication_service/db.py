@@ -43,6 +43,7 @@ class DB:
         except Exception:
             self._session.rollback()
             new_user = None
+            raise
         return new_user
 
     def find_user_by(self, **kwarg) -> User:
