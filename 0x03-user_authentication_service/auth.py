@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hash password Module"""
+"""Auth Module"""
 import bcrypt
 from db import DB
 from user import User
