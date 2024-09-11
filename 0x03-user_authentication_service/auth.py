@@ -9,7 +9,7 @@ from sqlalchemy.exc import NoResultFound
 def _hash_password(password: str) -> bytes:
     """hash password function"""
 
-    return bcrypt.hashpw(password.encode(encoding="utf-8"), bcrypt.gensalt())
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
 
 class Auth:
