@@ -47,14 +47,13 @@ class DB:
 
     def find_user_by(self, **kwarg) -> User:
         """Find User By function"""
-        for k in kwarg.keys():
-            if not hasattr(User, k):
-                raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwarg).first()
-        if user:
-            return user
-        else:
-            raise NoResultFound
+        try:
+            user = self._session.query(User).filter_by(**kwarg).one()
+        except NoResultFound:
+            raise NoResultFound()
+        except InvalidRequestError:
+            raise InvalidRequestError()
+        return user
 
     def update_user(self, user_id: int, **kwarg) -> None:
         """Update user fucntion"""
