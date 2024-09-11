@@ -32,17 +32,13 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """Add User Function"""
+        new_user = User(email=email, hashed_password=hashed_password)
         try:
-            new_user = User(
-                email=email,
-                hashed_password=hashed_password,
-            )
-
             self._session.add(new_user)
             self._session.commit()
-        except Exception:
+        except Exception as e:
+            print(f"Error adding user to database: {e}")
             self._session.rollback()
-            new_user = None
             raise
         return new_user
 
@@ -54,6 +50,7 @@ class DB:
             raise NoResultFound()
         except InvalidRequestError:
             raise InvalidRequestError()
+        # print("Type of user: {}".format(type(user)))
         return user
 
     def update_user(self, user_id: int, **kwarg) -> None:
