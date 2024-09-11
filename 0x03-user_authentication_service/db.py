@@ -60,9 +60,11 @@ class DB:
         """Update user fucntion"""
         user = self.find_user_by(id=user_id)
         for k in kwarg.keys():
-            if user.__getattribute__(k):
-                user.__setattr__(k, kwarg[k])
-            else:
+            try:
+                if user.__getattribute__(k):
+                    user.__setattr__(k, kwarg[k])
+            except Exception:
                 raise ValueError
+
         self._session.commit()
         return None
