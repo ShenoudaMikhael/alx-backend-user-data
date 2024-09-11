@@ -28,10 +28,22 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             result = bcrypt.checkpw(
-                password.encode("utf-8"), user.hashed_password)
+                password.encode("utf-8"),
+                user.hashed_password,
+            )
             return result
         except Exception:
             return False
+
+    def create_session(self, email: str) -> str:
+        """create session function"""
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            self._db.update_user(user.id, session_id=session_id)
+            return session_id
+        except Exception:
+            return None
 
 
 def _hash_password(password: str) -> bytes:
